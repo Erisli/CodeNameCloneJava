@@ -3,10 +3,14 @@ package Board;
 public class Slot {
     String word;
     Color color;
+    int index;
 
-    public Slot(String word, Color color) {
+    int reversed;
+
+    public Slot(String word, Color color, int index) {
         this.word = word;
         this.color = color;
+        this.index = index;
     }
 
     public String getWord() {
@@ -23,5 +27,21 @@ public class Slot {
 
     public void setColor(Color color) {
         this.color = color;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public int getReversed() {
+        return reversed;
+    }
+
+    public void setReversed(int reversed) {
+        this.reversed = reversed;
     }
 }

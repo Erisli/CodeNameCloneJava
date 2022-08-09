@@ -1,5 +1,7 @@
 package View;
 
+import Players.Map;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -7,6 +9,16 @@ import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class MainBoard extends JFrame {
+    public void createAndShowMapGUI(String name, ArrayList<Integer> green, ArrayList<Integer> black) {
+        //Create and set up the window.
+        MapBoard map = new MapBoard(name,green, black);
+        map.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        //Set up the content pane.
+        map.addComponentsToPane(map.getContentPane());
+        //Display the window.
+        map.pack();
+        map.setVisible(true);
+    }
     //    private MyColor[][] myColors;
 //    private JLabel[][] myLabels;
 //
@@ -48,32 +60,36 @@ public class MainBoard extends JFrame {
 //            }
 //        }
 //    }
-    static final String gapList[] = {"0", "10", "15", "20"};
-    final static int maxGap = 20;
-    JComboBox horGapComboBox;
-    JComboBox verGapComboBox;
+    static final String playerList[] = {"Player 1", "Player 2"};
 
-    ArrayList<String> board;
-    JButton applyButton = new JButton("Apply gaps");
+    final static int maxGap = 20;
+    JComboBox showMapBox;
+
+    ArrayList<String> words;
+    Map player1;
+    Map player2;
+    JButton applyButton = new JButton("Apply choices");
+    JButton showMapButton = new JButton("Show map");
     GridLayout experimentLayout = new GridLayout(5, 5);
 
-    public MainBoard(String name, ArrayList<String> board) {
+    public MainBoard(String name, ArrayList<String> words, Map player1,Map player2) {
         super(name);
-        this.board = board;
+        this.words = words;
+        this.player1 = player1;
+        this.player2 = player2;
         setResizable(false);
     }
 
-    public void initGaps() {
-        horGapComboBox = new JComboBox(gapList);
-        verGapComboBox = new JComboBox(gapList);
+    public void initBtns() {
+        showMapBox = new JComboBox(playerList);
     }
 
     public void addComponentsToPane(final Container pane) {
-        initGaps();
+        initBtns();
         final JPanel compsToExperiment = new JPanel();
         compsToExperiment.setLayout(experimentLayout);
         JPanel controls = new JPanel();
-        controls.setLayout(new GridLayout(2, 3));
+        controls.setLayout(new GridLayout(2, 2));
 
         //Set up components preferred size
         JButton b = new JButton("Just fake button");
@@ -83,35 +99,43 @@ public class MainBoard extends JFrame {
                 (int) (buttonSize.getHeight() * 5) + maxGap * 2));
 
         //Add buttons to experiment with Grid Layout
-        for (String s : board)
+        for (String s : words)
             compsToExperiment.add(new JButton(s));
 
         //Add controls to set up horizontal and vertical gaps
-        controls.add(new Label("Horizontal gap:"));
-        controls.add(new Label("Vertical gap:"));
-        controls.add(new Label(" "));
-        controls.add(horGapComboBox);
-        controls.add(verGapComboBox);
+        controls.add(new Label("Player 1's turn"));
         controls.add(applyButton);
+        controls.add(showMapBox);
+        controls.add(showMapButton);
+
 
         //Process the Apply gaps button press
-        applyButton.addActionListener(new ActionListener() {
+        showMapButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //Get the horizontal gap value
-                String horGap = (String) horGapComboBox.getSelectedItem();
-                //Get the vertical gap value
-                String verGap = (String) verGapComboBox.getSelectedItem();
-                //Set up the horizontal gap value
-                experimentLayout.setHgap(Integer.parseInt(horGap));
-                //Set up the vertical gap value
-                experimentLayout.setVgap(Integer.parseInt(verGap));
+                //Get the map choice value
+                String mapChoice = (String) showMapBox.getSelectedItem();
+
+                if(mapChoice.equalsIgnoreCase("Player 1")){
+                    createAndShowMapGUI("Player 1",player1.getAllGreen(),player1.getAllBlack());
+                }else if(mapChoice.equalsIgnoreCase("Player 2")){
+                    createAndShowMapGUI("Player 2",player2.getAllGreen(),player2.getAllBlack());
+                }
                 //Set up the layout of the buttons
                 experimentLayout.layoutContainer(compsToExperiment);
             }
         });
+
+        applyButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //TODO: validation
+            }
+        });
+
         pane.add(compsToExperiment, BorderLayout.NORTH);
         pane.add(new JSeparator(), BorderLayout.CENTER);
         pane.add(controls, BorderLayout.SOUTH);
     }
+
+
 
 }

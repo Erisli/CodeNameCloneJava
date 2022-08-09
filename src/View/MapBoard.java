@@ -50,7 +50,7 @@ public class MapBoard extends JFrame {
         {
             JButton btn = new JButton();
             btn.setBackground(Color.BLACK);
-            btn.setForeground(Color.GRAY);
+            //btn.setForeground(Color.GRAY);
             if(green.contains(i)){
                 btn.setBackground(Color.GREEN);
             }else if(black.contains(i)){
@@ -66,5 +66,7 @@ public class MapBoard extends JFrame {
         pane.add(new JSeparator(), BorderLayout.CENTER);
         pane.add(controls, BorderLayout.SOUTH);
     }
+
+
 
 }

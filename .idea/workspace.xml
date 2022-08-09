@@ -2,7 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="833b6733-10e7-425a-b1eb-e78c25677793" name="Changes" comment="Initial commit">
+      <change afterPath="$PROJECT_DIR$/src/Board/GameBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Board/Slot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Board/Slot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/MainBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/MainBoard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/View/MapBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/View/MapBoard.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +75,7 @@
       <workItem from="1659648866496" duration="7000" />
       <workItem from="1659980251702" duration="5645000" />
       <workItem from="1659991468017" duration="776000" />
+      <workItem from="1660054710131" duration="3828000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659991810238</created>

@@ -1,9 +1,11 @@
+import Board.GameBoard;
 import Players.Map;
 import Utility.Utility;
 import View.MainBoard;
 import View.MapBoard;
 
 import javax.swing.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.JFrame;
@@ -11,9 +13,9 @@ import javax.swing.JFrame;
 public class Main {
     final static int MAX = 25;
 
-    private static void createAndShowMainGUI(ArrayList<String> board) {
+    private static void createAndShowMainGUI(ArrayList<String> board, Map player1,Map player2) {
         //Create and set up the window.
-        MainBoard main = new MainBoard("Main Board",board);
+        MainBoard main = new MainBoard("Main Board",board, player1, player2);
         main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         //Set up the content pane.
         main.addComponentsToPane(main.getContentPane());
@@ -22,16 +24,7 @@ public class Main {
         main.setVisible(true);
     }
 
-    private static void createAndShowMapGUI(String name, ArrayList<Integer> green, ArrayList<Integer> black) {
-        //Create and set up the window.
-        MapBoard map = new MapBoard(name,green, black);
-        map.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //Set up the content pane.
-        map.addComponentsToPane(map.getContentPane());
-        //Display the window.
-        map.pack();
-        map.setVisible(true);
-    }
+
 
     public static void main(String[] args) {
 
@@ -83,10 +76,9 @@ public class Main {
         Map player1 = new Map();
         Map player2 = new Map();
         ArrayList<Integer> mapList = new ArrayList<>();
-        int i = 0;
-        while(i<MAX){
+
+        for(int i =0;i<MAX;i++){
             mapList.add(i);
-            i++;
         }
         Collections.shuffle(mapList);
 
@@ -130,7 +122,11 @@ public class Main {
         System.out.println("player2 Black:");
         System.out.println(player2.getAllBlack());
 
+        //7. set up the game board for validation
 
+
+
+        //Main views for maps and board
         /* Use an appropriate Look and Feel */
         try {
             //UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
@@ -151,9 +147,7 @@ public class Main {
         //creating and showing this application's GUI.
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                createAndShowMapGUI("Player 1",player1.getAllGreen(),player1.getAllBlack());
-                createAndShowMapGUI("Player 2",player2.getAllGreen(),player2.getAllBlack());
-                createAndShowMainGUI(board);
+                createAndShowMainGUI(board, player1, player2);
             }
         });
     }
