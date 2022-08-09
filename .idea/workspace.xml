@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="833b6733-10e7-425a-b1eb-e78c25677793" name="Changes" comment="Initial commit">
       <change afterPath="$PROJECT_DIR$/src/Board/GameBoard.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/View/MyMouseListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Board/Slot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Board/Slot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
@@ -75,7 +76,7 @@
       <workItem from="1659648866496" duration="7000" />
       <workItem from="1659980251702" duration="5645000" />
       <workItem from="1659991468017" duration="776000" />
-      <workItem from="1660054710131" duration="3828000" />
+      <workItem from="1660054710131" duration="8688000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1659991810238</created>
@@ -110,5 +111,21 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Initial commit" />
     <option name="LAST_COMMIT_MESSAGE" value="Initial commit" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/View/MyMouseListener.java</url>
+          <line>11</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/View/MainBoard.java</url>
+          <line>126</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
