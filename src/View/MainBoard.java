@@ -16,7 +16,8 @@ public class MainBoard extends JFrame {
     static final String playerList[] = {"Player 1", "Player 2"};
 
     final static int maxGap = 20;
-    JComboBox showMapBox = new JComboBox(playerList);;
+    JComboBox showMapBox = new JComboBox(playerList);
+    ;
     int attempts;
 
 
@@ -63,7 +64,7 @@ public class MainBoard extends JFrame {
                 public void actionPerformed(ActionEvent e) {
                     JButton tempBtn = (JButton) e.getSource();
                     int index = words.indexOf(tempBtn.getText());
-                    validateWithMap(playerMapList.get(curPlayer == 1? 0: 1), index, tempBtn, jPanel);
+                    validateWithMap(playerMapList.get(curPlayer == 1 ? 0 : 1), index, tempBtn, jPanel);
                     checkIfEndOfGame(jPanel);
                 }
             });
@@ -77,7 +78,7 @@ public class MainBoard extends JFrame {
     public void nextPlayer() {
         attempts--;
         curPlayer = curPlayer == 0 ? 1 : 0;
-        curPlayerLabel.setText("Player " + (curPlayer+1) + "'s turn:, attempts left: " + attempts);
+        curPlayerLabel.setText("Player " + (curPlayer + 1) + "'s turn:, attempts left: " + attempts);
     }
 
     public void checkIfEndOfGame(JPanel jPanel) {
@@ -86,8 +87,7 @@ public class MainBoard extends JFrame {
                     "You have pressed all the green cards! Victory!",
                     "Victory",
                     JOptionPane.WARNING_MESSAGE);
-        }
-        else if (attempts <= 0) {
+        } else if (attempts <= 0) {
             JOptionPane.showMessageDialog(jPanel,
                     "You have used all the attempts! End of game",
                     "End of game",
@@ -154,7 +154,7 @@ public class MainBoard extends JFrame {
                 repaint();
             }
         });
-        
+
         //Add controls
         controls.add(curPlayerLabel);
         controls.add(nextButton);
