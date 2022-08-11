@@ -1,61 +1,52 @@
 package View;
 
-import Players.Map;
+import Players.Player;
+import Utility.Utility;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.beans.EventHandler;
 import java.util.ArrayList;
-import java.util.Arrays;
 import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class MainBoard extends JFrame {
-    public void createAndShowMapGUI(String name, ArrayList<Integer> green, ArrayList<Integer> black) {
-        //Create and set up the window.
-        MapBoard map = new MapBoard(name, green, black);
-        map.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //Set up the content pane.
-        map.addComponentsToPane(map.getContentPane());
-        //Display the window.
-        map.pack();
-        map.setVisible(true);
-    }
 
+
+    Utility utility = new Utility();
     static final String playerList[] = {"Player 1", "Player 2"};
 
     final static int maxGap = 20;
-    JComboBox showMapBox;
+    JComboBox showMapBox = new JComboBox(playerList);;
+    int attempts;
+
 
     ArrayList<String> words;
-    Map player1;
-    Map player2;
-    JButton applyButton = new JButton("Apply choices");
+    ArrayList<Player> playerMapList = new ArrayList<>();
+    JButton nextButton = new JButton("Next player");
     JButton showMapButton = new JButton("Show map");
+    JButton replayButton = new JButton("Replay");
     GridLayout gridLayout = new GridLayout(5, 5);
     Label curPlayerLabel = new Label();
+    ArrayList<Integer> greenClicked = new ArrayList<>();
     int curPlayer;
-    ArrayList<Integer> choices = new ArrayList<>();
 
-    public MainBoard(String name, ArrayList<String> words, Map player1, Map player2) {
+    public MainBoard(String name) {
         super(name);
-        this.words = words;
-        this.player1 = player1;
-        this.player2 = player2;
-        curPlayer = 1;
+
         setResizable(false);
     }
 
-    public void initBtns() {
-        showMapBox = new JComboBox(playerList);
+    public void iniMapsAndBoardData() {
+        curPlayer = 0;
+        attempts = 14;
+        this.words = utility.randomizeBoard();
+        playerMapList = utility.randomizeMap();
+        curPlayerLabel.setText("Player 1's turn, attempts left: " + attempts);
+        showMapBox.setSelectedIndex(1);
     }
 
-    public void addComponentsToPane(final Container pane) {
-        initBtns();
-        final JPanel jPanel = new JPanel();
+    public void iniBoardView(JPanel jPanel) {
         jPanel.setLayout(gridLayout);
-        JPanel controls = new JPanel();
-        controls.setLayout(new GridLayout(2, 2));
 
         //Set up components preferred size
         JButton b = new JButton("Just fake button");
@@ -70,93 +61,107 @@ public class MainBoard extends JFrame {
             temp.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    JButton l = (JButton) e.getSource();
-
-                    if (l.getBackground() != Color.red) {
-                        l.setOpaque(true);
-                        l.setBackground(Color.red);
-                        choices.add(words.indexOf(l.getText()));
-                    } else {
-                        l.setBackground(new JButton().getBackground());
-                        choices.remove(words.indexOf(l.getText()));
-                    }
-//                    System.out.println(choices.get(0));
+                    JButton tempBtn = (JButton) e.getSource();
+                    int index = words.indexOf(tempBtn.getText());
+                    validateWithMap(playerMapList.get(curPlayer == 1? 0: 1), index, tempBtn, jPanel);
+                    checkIfEndOfGame(jPanel);
                 }
             });
-            jPanel.add(temp);
 
+            jPanel.add(temp);
         }
 
-        //Add controls to set up horizontal and vertical gaps
-        curPlayerLabel.setText("Player 1's turn:");
-        controls.add(curPlayerLabel);
-        controls.add(applyButton);
-        controls.add(showMapBox);
-        controls.add(showMapButton);
 
+    }
 
-        //Process the showmap button press
+    public void nextPlayer() {
+        attempts--;
+        curPlayer = curPlayer == 0 ? 1 : 0;
+        curPlayerLabel.setText("Player " + (curPlayer+1) + "'s turn:, attempts left: " + attempts);
+    }
+
+    public void checkIfEndOfGame(JPanel jPanel) {
+        if (greenClicked.size() == 15) {
+            JOptionPane.showMessageDialog(jPanel,
+                    "You have pressed all the green cards! Victory!",
+                    "Victory",
+                    JOptionPane.WARNING_MESSAGE);
+        }
+        else if (attempts <= 0) {
+            JOptionPane.showMessageDialog(jPanel,
+                    "You have used all the attempts! End of game",
+                    "End of game",
+                    JOptionPane.ERROR_MESSAGE);
+
+        }
+    }
+
+    public void validateWithMap(Player validatePlayer, int index, JButton tempBtn, JPanel jPanel) {
+        if (validatePlayer.getAllGreen().contains(index) && !greenClicked.contains(index)) {
+            greenClicked.add(index);
+            tempBtn.setBackground(Color.green);
+            System.out.println("Green index: " + index);
+        } else if (validatePlayer.getAllBlack().contains(index)) {
+            //end of game
+            tempBtn.setBackground(Color.black);
+            JOptionPane.showMessageDialog(jPanel,
+                    "You pressed the black card! End of game.",
+                    "End of game",
+                    JOptionPane.ERROR_MESSAGE);
+            System.out.println("Black index: " + index);
+        } else {
+            tempBtn.setBackground(Color.lightGray);
+            nextPlayer();
+            System.out.println("White index: " + index);
+        }
+    }
+
+    public void addComponentsToPane(final Container pane) {
+        iniMapsAndBoardData();
+        final JPanel jPanel = new JPanel();
+        iniBoardView(jPanel);
+        JPanel controls = new JPanel();
+        controls.setLayout(new GridLayout(3, 2));
+
+//Process the showmap button press
         showMapButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 //Get the map choice value
                 String mapChoice = (String) showMapBox.getSelectedItem();
-
                 if (mapChoice.equalsIgnoreCase("Player 1")) {
-                    createAndShowMapGUI("Player 1", player1.getAllGreen(), player1.getAllBlack());
-                } else if (mapChoice.equalsIgnoreCase("Player 2")) {
-                    createAndShowMapGUI("Player 2", player2.getAllGreen(), player2.getAllBlack());
+                    utility.createAndShowMapGUI(mapChoice, playerMapList.get(0).getAllGreen(), playerMapList.get(0).getAllBlack());
+                } else {
+                    utility.createAndShowMapGUI(mapChoice, playerMapList.get(1).getAllGreen(), playerMapList.get(1).getAllBlack());
                 }
                 //Set up the layout of the buttons
-//                gridLayout.layoutContainer(jPanel);
+                gridLayout.layoutContainer(jPanel);
             }
         });
-
-        applyButton.addActionListener(new ActionListener() {
+        //Process the nextplayer button press
+        nextButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                //TODO: validation
-                Component[] comp = jPanel.getComponents();
-                Map playerMap = new Map();
-                if (curPlayer == 1) {
-                    //TODO: validate with player2's map
-                    playerMap = player2;
-
-                } else if (curPlayer == 2) {
-                    //TODO: validate with player1's map
-                    playerMap = player1;
-                }
-                for (int i : choices) {
-                    JButton tempBtn = new JButton();
-                    for (int j = 0; j < comp.length; j++) {
-                        if (words.get(i).equalsIgnoreCase(((JButton) comp[j]).getText())) {
-                            tempBtn = (JButton) comp[j];
-
-                        }
-                    }
-                    if (playerMap.getAllGreen().contains(i)) {
-                        System.out.println("Correct index: " + i);
-                        tempBtn.setBackground(Color.green);
-
-                    } else if (playerMap.getAllBlack().contains(i)) {
-                        //end of game
-                        tempBtn.setBackground(Color.black);
-                        JOptionPane.showMessageDialog(jPanel,
-                                "You pressed the black card! End of game.",
-                                "End of game",
-                                JOptionPane.WARNING_MESSAGE);
-
-                    } else {
-                        tempBtn.setBackground(Color.lightGray);
-                        System.out.println("White index: " + i);
-                    }
-                }
-
-
-                curPlayer = curPlayer == 1 ? 2 : 1;
-                curPlayerLabel.setText("Player " + curPlayer + "'s turn:");
-                choices = new ArrayList<>();
+                nextPlayer();
             }
-
         });
+
+        //Process the replay button press
+        replayButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                jPanel.removeAll();
+                iniMapsAndBoardData();
+                iniBoardView(jPanel);
+                revalidate();
+                repaint();
+            }
+        });
+        
+        //Add controls
+        controls.add(curPlayerLabel);
+        controls.add(nextButton);
+        controls.add(showMapBox);
+        controls.add(showMapButton);
+        controls.add(new JLabel());
+        controls.add(replayButton);
 
         pane.add(jPanel, BorderLayout.NORTH);
         pane.add(new JSeparator(), BorderLayout.CENTER);
