@@ -8,27 +8,26 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 public class MainBoard extends JFrame {
-
-
     Utility utility = new Utility();
     static final String[] playerList = {"Player 1", "Player 2"};
-    JComboBox<String> showMapBox = new JComboBox<>(playerList);
-    int attempts;
-
-
-    ArrayList<String> words;
     ArrayList<Player> playerMapList = new ArrayList<>();
+    int attempts;
+    ArrayList<String> words;
+    ArrayList<Integer> greenClicked = new ArrayList<>();
+    int curPlayer;
+
+
+    JComboBox<String> showMapBox = new JComboBox<>(playerList);
     JButton nextButton = new JButton("Next player");
     JButton showMapButton = new JButton("Show map");
     JButton replayButton = new JButton("Replay");
     GridLayout gridLayout = new GridLayout(5, 5);
     Label curPlayerLabel = new Label();
-    ArrayList<Integer> greenClicked = new ArrayList<>();
-    int curPlayer;
+    JPanel jPanel;
 
     public MainBoard(String name) {
         super(name);
-
+        jPanel = new JPanel();
         setResizable(false);
     }
 
@@ -37,23 +36,23 @@ public class MainBoard extends JFrame {
         attempts = 14;
         this.words = utility.randomizeBoard();
         playerMapList = utility.randomizeMap();
+        curPlayerLabel.setFont(new Font("Arial", Font.BOLD, 18));
         curPlayerLabel.setText("Player 1's turn, attempts left: " + attempts);
         showMapBox.setSelectedIndex(1);
     }
 
-    public void iniBoardView(JPanel jPanel) {
+    public void iniBoardView() {
 
-        //Set up components preferred size
         utility.fakeButton(jPanel);
 
         //Add buttons to experiment with Grid Layout
         for (String s : words) {
             JButton temp = new JButton(s);
+            temp.setFont(new Font("Times New Roman", Font.PLAIN, 25));
             temp.addActionListener(e -> {
                 JButton tempBtn = (JButton) e.getSource();
-                int index = words.indexOf(tempBtn.getText());
-                validateWithMap(playerMapList.get(curPlayer == 1 ? 0 : 1), index, tempBtn, jPanel);
-                checkIfEndOfGame(jPanel);
+                validateWithMap(playerMapList.get(curPlayer == 1 ? 0 : 1), words.indexOf(tempBtn.getText()), tempBtn);
+                checkIfEndOfGame();
             });
 
             jPanel.add(temp);
@@ -66,7 +65,7 @@ public class MainBoard extends JFrame {
         curPlayerLabel.setText("Player " + (curPlayer + 1) + "'s turn:, attempts left: " + attempts);
     }
 
-    public void checkIfEndOfGame(JPanel jPanel) {
+    public void checkIfEndOfGame() {
         if (greenClicked.size() == 15) {
             JOptionPane.showMessageDialog(jPanel,
                     "You have pressed all the green cards! Victory!",
@@ -81,7 +80,7 @@ public class MainBoard extends JFrame {
         }
     }
 
-    public void validateWithMap(Player validatePlayer, int index, JButton tempBtn, JPanel jPanel) {
+    public void validateWithMap(Player validatePlayer, int index, JButton tempBtn) {
         if (validatePlayer.getAllGreen().contains(index) && !greenClicked.contains(index)) {
             greenClicked.add(index);
             tempBtn.setBackground(Color.green);
@@ -103,9 +102,9 @@ public class MainBoard extends JFrame {
 
     public void addComponentsToPane(final Container pane) {
         iniMapsAndBoardData();
-        final JPanel jPanel = new JPanel();
+        iniBoardView();
         jPanel.setLayout(gridLayout);
-        iniBoardView(jPanel);
+
         JPanel controls = new JPanel();
         controls.setLayout(new GridLayout(3, 2));
 
@@ -129,17 +128,21 @@ public class MainBoard extends JFrame {
         replayButton.addActionListener(e -> {
             jPanel.removeAll();
             iniMapsAndBoardData();
-            iniBoardView(jPanel);
+            iniBoardView();
             revalidate();
             repaint();
         });
 
         //Add controls
         controls.add(curPlayerLabel);
+        nextButton.setFont(new Font("Arial", Font.BOLD, 14));
         controls.add(nextButton);
+        showMapBox.setFont(new Font("Arial", Font.BOLD, 14));
         controls.add(showMapBox);
+        showMapButton.setFont(new Font("Arial", Font.BOLD, 14));
         controls.add(showMapButton);
         controls.add(new JLabel());
+        replayButton.setFont(new Font("Arial", Font.BOLD, 18));
         controls.add(replayButton);
 
         pane.add(jPanel, BorderLayout.NORTH);

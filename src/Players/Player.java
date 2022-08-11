@@ -6,14 +6,14 @@ import java.util.List;
 
 public class Player {
     //special
-    List<Integer> matchGreen;   //size of 3;
-    int matchBlack;
-    int matchGtoB;
-    int matchBtoG;
+    private List<Integer> matchGreen;   //size of 3;
+    private int matchBlack;
+    private int matchGtoB;
+    private int matchBtoG;
 
     //unique
-    List<Integer> green;    //size of 5
-    int black;
+    private List<Integer> green;    //size of 5
+    private int black;
 
     public ArrayList<Integer> getAllGreen() {
         ArrayList<Integer> ret = (ArrayList<Integer>) matchGreen;

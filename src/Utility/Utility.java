@@ -11,9 +11,9 @@ import java.util.Collections;
 import java.util.Random;
 
 public class Utility {
-    final static int MAX = 25;
-    final static int maxGap = 20;
-    String[] words = {"aquavit", "abbreviation", "analogy", "actress", "area", "anxiety", "amnesty", "airport", "autograph", "array",
+    final static int MAXWORDS = 25;
+    final static int MAXGAP = 20;
+    final String[] wordsBank = {"aquavit", "abbreviation", "analogy", "actress", "area", "anxiety", "amnesty", "airport", "autograph", "array",
             "bloom", "brainwashing", "bootie", "brook", "back", "bard", "baggie", "brokerage", "bunch", "binary",
             "crew", "creation", "citizen", "cocktail", "collusion", "criterion", "control", "cargo", "cricketer", "copying",
             "digital", "dough", "disadvantage", "die", "download", "drummer", "dredger", "drop", "deacon", "della",
@@ -58,15 +58,15 @@ public class Utility {
 
     public ArrayList<String> randomizeBoard() {
         // Randomizing the list of words
-        ArrayList<String> board = new ArrayList<>();
+        ArrayList<String> words = new ArrayList<>();
         Utility utility = new Utility();
         ArrayList<Integer> list = new ArrayList<>();
-        list = utility.getRandomNonRepeatingIntegers(MAX, 0, words.length - 1);
+        list = utility.getRandomNonRepeatingIntegers(MAXWORDS, 0, wordsBank.length - 1);
 
         for (int i : list)
-            board.add(words[i]);
+            words.add(wordsBank[i]);
 
-        return board;
+        return words;
 
     }
 
@@ -78,7 +78,7 @@ public class Utility {
         Player player2 = new Player();
         ArrayList<Integer> mapList = new ArrayList<>();
 
-        for (int i = 0; i < MAX; i++) {
+        for (int i = 0; i < MAXWORDS; i++) {
             mapList.add(i);
         }
         Collections.shuffle(mapList);
@@ -151,16 +151,13 @@ public class Utility {
         map.setVisible(true);
     }
 
-    public void fakeButton(JPanel compsToExperiment) {
+    public void fakeButton(JPanel jPanel) {
+        //Set up components preferred size
         JButton b = new JButton("Just fake button");
-        b.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        b.setFont(new Font("Times New Roman", Font.PLAIN, 25));
         Dimension buttonSize = b.getPreferredSize();
-        compsToExperiment.setPreferredSize(new Dimension((int) (buttonSize.getWidth() * 5) + maxGap,
-                (int) (buttonSize.getHeight() * 5) + maxGap * 2));
+        jPanel.setPreferredSize(new Dimension((int) (buttonSize.getWidth() * 5) + MAXGAP,
+                (int) (buttonSize.getHeight() * 5) + MAXGAP * 2));
     }
-
-
-
-
 
 }

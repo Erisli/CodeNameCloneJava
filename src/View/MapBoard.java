@@ -8,8 +8,6 @@ import javax.swing.*;
 
 @SuppressWarnings("serial")
 public class MapBoard extends JFrame {
-
-
     Utility utility = new Utility();
     ArrayList<Integer> green;
     ArrayList<Integer> black;
@@ -23,11 +21,11 @@ public class MapBoard extends JFrame {
     }
 
     public void addComponentsToPane(final Container pane) {
-        final JPanel compsToExperiment = new JPanel();
-        compsToExperiment.setLayout(gridLayout);
+        final JPanel jPanel = new JPanel();
+        jPanel.setLayout(gridLayout);
 
         //Set up components preferred size
-        utility.fakeButton(compsToExperiment);
+        utility.fakeButton(jPanel);
 
         //Add buttons to experiment with Grid Layout
         for (int i =0;i<25;i++)
@@ -41,11 +39,11 @@ public class MapBoard extends JFrame {
             }else{
                 btn.setBackground(Color.WHITE);
             }
-            compsToExperiment.add(btn);
+            jPanel.add(btn);
 
         }
 
-        pane.add(compsToExperiment, BorderLayout.NORTH);
+        pane.add(jPanel, BorderLayout.NORTH);
         pane.add(new JSeparator(), BorderLayout.CENTER);
     }
 
