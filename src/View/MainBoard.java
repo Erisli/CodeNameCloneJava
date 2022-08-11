@@ -4,20 +4,15 @@ import Players.Player;
 import Utility.Utility;
 
 import java.awt.*;
-import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-@SuppressWarnings("serial")
 public class MainBoard extends JFrame {
 
 
     Utility utility = new Utility();
-    static final String playerList[] = {"Player 1", "Player 2"};
-
-    final static int maxGap = 20;
-    JComboBox showMapBox = new JComboBox(playerList);
-    ;
+    static final String[] playerList = {"Player 1", "Player 2"};
+    JComboBox<String> showMapBox = new JComboBox<>(playerList);
     int attempts;
 
 
@@ -47,32 +42,22 @@ public class MainBoard extends JFrame {
     }
 
     public void iniBoardView(JPanel jPanel) {
-        jPanel.setLayout(gridLayout);
 
         //Set up components preferred size
-        JButton b = new JButton("Just fake button");
-        b.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-        Dimension buttonSize = b.getPreferredSize();
-        jPanel.setPreferredSize(new Dimension((int) (buttonSize.getWidth() * 5) + maxGap,
-                (int) (buttonSize.getHeight() * 5) + maxGap * 2));
+        utility.fakeButton(jPanel);
 
         //Add buttons to experiment with Grid Layout
         for (String s : words) {
             JButton temp = new JButton(s);
-            temp.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JButton tempBtn = (JButton) e.getSource();
-                    int index = words.indexOf(tempBtn.getText());
-                    validateWithMap(playerMapList.get(curPlayer == 1 ? 0 : 1), index, tempBtn, jPanel);
-                    checkIfEndOfGame(jPanel);
-                }
+            temp.addActionListener(e -> {
+                JButton tempBtn = (JButton) e.getSource();
+                int index = words.indexOf(tempBtn.getText());
+                validateWithMap(playerMapList.get(curPlayer == 1 ? 0 : 1), index, tempBtn, jPanel);
+                checkIfEndOfGame(jPanel);
             });
 
             jPanel.add(temp);
         }
-
-
     }
 
     public void nextPlayer() {
@@ -119,40 +104,34 @@ public class MainBoard extends JFrame {
     public void addComponentsToPane(final Container pane) {
         iniMapsAndBoardData();
         final JPanel jPanel = new JPanel();
+        jPanel.setLayout(gridLayout);
         iniBoardView(jPanel);
         JPanel controls = new JPanel();
         controls.setLayout(new GridLayout(3, 2));
 
-//Process the showmap button press
-        showMapButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //Get the map choice value
-                String mapChoice = (String) showMapBox.getSelectedItem();
+        //Process the show map button press
+        showMapButton.addActionListener(e -> {
+            //Get the map choice value
+            String mapChoice = (String) showMapBox.getSelectedItem();
+            if (mapChoice != null)
                 if (mapChoice.equalsIgnoreCase("Player 1")) {
                     utility.createAndShowMapGUI(mapChoice, playerMapList.get(0).getAllGreen(), playerMapList.get(0).getAllBlack());
                 } else {
                     utility.createAndShowMapGUI(mapChoice, playerMapList.get(1).getAllGreen(), playerMapList.get(1).getAllBlack());
                 }
-                //Set up the layout of the buttons
-                gridLayout.layoutContainer(jPanel);
-            }
+            //Set up the layout of the buttons
+            gridLayout.layoutContainer(jPanel);
         });
-        //Process the nextplayer button press
-        nextButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                nextPlayer();
-            }
-        });
+        //Process the next player button press
+        nextButton.addActionListener(e -> nextPlayer());
 
         //Process the replay button press
-        replayButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                jPanel.removeAll();
-                iniMapsAndBoardData();
-                iniBoardView(jPanel);
-                revalidate();
-                repaint();
-            }
+        replayButton.addActionListener(e -> {
+            jPanel.removeAll();
+            iniMapsAndBoardData();
+            iniBoardView(jPanel);
+            revalidate();
+            repaint();
         });
 
         //Add controls
