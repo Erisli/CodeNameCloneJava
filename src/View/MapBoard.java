@@ -1,5 +1,7 @@
 package View;
 
+import Utility.Utility;
+
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
@@ -7,8 +9,8 @@ import javax.swing.*;
 @SuppressWarnings("serial")
 public class MapBoard extends JFrame {
 
-    final static int maxGap = 20;
 
+    Utility utility = new Utility();
     ArrayList<Integer> green;
     ArrayList<Integer> black;
     GridLayout gridLayout = new GridLayout(5, 5);
@@ -25,11 +27,7 @@ public class MapBoard extends JFrame {
         compsToExperiment.setLayout(gridLayout);
 
         //Set up components preferred size
-        JButton b = new JButton("Just fake button");
-        b.setFont(new Font("Times New Roman", Font.PLAIN, 20));
-        Dimension buttonSize = b.getPreferredSize();
-        compsToExperiment.setPreferredSize(new Dimension((int) (buttonSize.getWidth() * 5) + maxGap,
-                (int) (buttonSize.getHeight() * 5) + maxGap * 2));
+        utility.fakeButton(compsToExperiment);
 
         //Add buttons to experiment with Grid Layout
         for (int i =0;i<25;i++)
@@ -50,4 +48,6 @@ public class MapBoard extends JFrame {
         pane.add(compsToExperiment, BorderLayout.NORTH);
         pane.add(new JSeparator(), BorderLayout.CENTER);
     }
+
+
 }

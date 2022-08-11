@@ -12,6 +12,7 @@ import java.util.Random;
 
 public class Utility {
     final static int MAX = 25;
+    final static int maxGap = 20;
     String[] words = {"aquavit", "abbreviation", "analogy", "actress", "area", "anxiety", "amnesty", "airport", "autograph", "array",
             "bloom", "brainwashing", "bootie", "brook", "back", "bard", "baggie", "brokerage", "bunch", "binary",
             "crew", "creation", "citizen", "cocktail", "collusion", "criterion", "control", "cargo", "cricketer", "copying",
@@ -148,6 +149,14 @@ public class Utility {
         //Display the window.
         map.pack();
         map.setVisible(true);
+    }
+
+    public void fakeButton(JPanel compsToExperiment) {
+        JButton b = new JButton("Just fake button");
+        b.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        Dimension buttonSize = b.getPreferredSize();
+        compsToExperiment.setPreferredSize(new Dimension((int) (buttonSize.getWidth() * 5) + maxGap,
+                (int) (buttonSize.getHeight() * 5) + maxGap * 2));
     }
 
 
