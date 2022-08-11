@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Map {
+public class Player {
     //special
     List<Integer> matchGreen;   //size of 3;
     int matchBlack;
