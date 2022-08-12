@@ -1,52 +1,59 @@
 package View;
 
+import Players.Player;
 import Utility.Utility;
 
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-@SuppressWarnings("serial")
-public class MapBoard extends JFrame {
-
-
+public class MapBoard extends Board {
+    private Player player;
+    private JPanel jPanel;
     Utility utility = new Utility();
-    ArrayList<Integer> green;
-    ArrayList<Integer> black;
-    GridLayout gridLayout = new GridLayout(5, 5);
 
-    public MapBoard(String name, ArrayList<Integer> green, ArrayList<Integer> black) {
+    public MapBoard(String name, ArrayList<Player> players) {
         super(name);
-        this.green = green;
-        this.black = black;
+        jPanel = new JPanel();
+        if (name.equalsIgnoreCase("Player 1"))
+            player = players.get(0);
+        else
+            player = players.get(1);
+
         setResizable(false);
     }
 
-    public void addComponentsToPane(final Container pane) {
-        final JPanel compsToExperiment = new JPanel();
-        compsToExperiment.setLayout(gridLayout);
-
-        //Set up components preferred size
-        utility.fakeButton(compsToExperiment);
+    @Override
+    public void iniBoardView() {
+        utility.fakeButton(jPanel);
 
         //Add buttons to experiment with Grid Layout
-        for (int i =0;i<25;i++)
-        {
+        for (int i = 0; i < 25; i++) {
             JButton btn = new JButton();
             btn.setBackground(Color.BLACK);
-            if(green.contains(i)){
+            if (player.getAllGreen().contains(i)) {
                 btn.setBackground(Color.GREEN);
-            }else if(black.contains(i)){
+            } else if (player.getAllBlack().contains(i)) {
                 btn.setBackground(Color.BLACK);
-            }else{
+            } else {
                 btn.setBackground(Color.WHITE);
             }
-            compsToExperiment.add(btn);
+            jPanel.add(btn);
 
         }
+    }
 
-        pane.add(compsToExperiment, BorderLayout.NORTH);
+    public void addComponentsToPane(final Container pane) {
+        iniBoardView();
+        setBoardLayout(jPanel, new GridLayout(5, 5));
+
+        pane.add(jPanel, BorderLayout.NORTH);
         pane.add(new JSeparator(), BorderLayout.CENTER);
+    }
+
+    @Override
+    public void setBoardLayout(JPanel _jPanel, GridLayout gridLayout) {
+        _jPanel.setLayout(gridLayout);
     }
 
 

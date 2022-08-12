@@ -11,9 +11,9 @@ import java.util.Collections;
 import java.util.Random;
 
 public class Utility {
-    final static int MAX = 25;
-    final static int maxGap = 20;
-    String[] words = {"aquavit", "abbreviation", "analogy", "actress", "area", "anxiety", "amnesty", "airport", "autograph", "array",
+    final static int MAXWORDS = 25;
+    final static int MAXGAP = 20;
+    final String[] wordsBank = {"aquavit", "abbreviation", "analogy", "actress", "area", "anxiety", "amnesty", "airport", "autograph", "array",
             "bloom", "brainwashing", "bootie", "brook", "back", "bard", "baggie", "brokerage", "bunch", "binary",
             "crew", "creation", "citizen", "cocktail", "collusion", "criterion", "control", "cargo", "cricketer", "copying",
             "digital", "dough", "disadvantage", "die", "download", "drummer", "dredger", "drop", "deacon", "della",
@@ -40,14 +40,11 @@ public class Utility {
             "yurt", "yawn", "yahoo", "yarmulke", "yard", "yesterday", "yew", "yugoslavian", "yogurt", "yak",
             "zenith", "zodiac", "zone", "zebra", "ziploc", "zeitgeist", "zucchini", "zero"};
 
-    public ArrayList getRandomNonRepeatingIntegers(int size, int min,
-                                                   int max) {
+    public ArrayList getRandomNonRepeatingIntegers(int size, int min, int max) {
         ArrayList numbers = new ArrayList();
         Random random = new Random();
         while (numbers.size() < size) {
-            //Get Random numbers between range
             int randomNumber = random.nextInt((max - min) + 1) + min;
-            //Check for duplicate values
             if (!numbers.contains(randomNumber)) {
                 numbers.add(randomNumber);
             }
@@ -56,29 +53,28 @@ public class Utility {
         return numbers;
     }
 
+    // Randomizing the list of words
     public ArrayList<String> randomizeBoard() {
-        // Randomizing the list of words
-        ArrayList<String> board = new ArrayList<>();
+
+        ArrayList<String> words = new ArrayList<>();
         Utility utility = new Utility();
         ArrayList<Integer> list = new ArrayList<>();
-        list = utility.getRandomNonRepeatingIntegers(MAX, 0, words.length - 1);
+        list = utility.getRandomNonRepeatingIntegers(MAXWORDS, 0, wordsBank.length - 1);
 
         for (int i : list)
-            board.add(words[i]);
-
-        return board;
-
+            words.add(wordsBank[i]);
+        return words;
     }
 
+    // Randomizing the map
     public ArrayList<Player> randomizeMap() {
         ArrayList<Player> ret = new ArrayList<>();
-
         // Randomizing the map
         Player player1 = new Player();
         Player player2 = new Player();
         ArrayList<Integer> mapList = new ArrayList<>();
 
-        for (int i = 0; i < MAX; i++) {
+        for (int i = 0; i < MAXWORDS; i++) {
             mapList.add(i);
         }
         Collections.shuffle(mapList);
@@ -130,37 +126,30 @@ public class Utility {
     }
 
     public void createAndShowMainGUI() {
-        //Create and set up the window.
         MainBoard main = new MainBoard("Main Board");
         main.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        //Set up the content pane.
         main.addComponentsToPane(main.getContentPane());
         //Display the window.
         main.pack();
         main.setVisible(true);
     }
 
-    public void createAndShowMapGUI(String name, ArrayList<Integer> green, ArrayList<Integer> black) {
-        //Create and set up the window.
-        MapBoard map = new MapBoard(name, green, black);
+    public void createAndShowMapGUI(String name, ArrayList<Player> players) {
+        MapBoard map = new MapBoard(name, players);
         map.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        //Set up the content pane.
         map.addComponentsToPane(map.getContentPane());
         //Display the window.
         map.pack();
         map.setVisible(true);
     }
 
-    public void fakeButton(JPanel compsToExperiment) {
+    public void fakeButton(JPanel jPanel) {
+        //Set up components preferred size
         JButton b = new JButton("Just fake button");
-        b.setFont(new Font("Times New Roman", Font.PLAIN, 20));
+        b.setFont(new Font("Times New Roman", Font.PLAIN, 25));
         Dimension buttonSize = b.getPreferredSize();
-        compsToExperiment.setPreferredSize(new Dimension((int) (buttonSize.getWidth() * 5) + maxGap,
-                (int) (buttonSize.getHeight() * 5) + maxGap * 2));
+        jPanel.setPreferredSize(new Dimension((int) (buttonSize.getWidth() * 5) + MAXGAP,
+                (int) (buttonSize.getHeight() * 5) + MAXGAP * 2));
     }
-
-
-
-
 
 }

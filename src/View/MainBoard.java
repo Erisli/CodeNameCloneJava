@@ -7,28 +7,27 @@ import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
 
-public class MainBoard extends JFrame {
+public class MainBoard extends Board {
 
-
-    Utility utility = new Utility();
     static final String[] playerList = {"Player 1", "Player 2"};
+    private ArrayList<Player> playerMapList = new ArrayList<>();
+    private int attempts;
+    private ArrayList<String> words;
+    private ArrayList<Integer> greenClicked = new ArrayList<>();
+    private int curPlayer;
+
+    private JPanel jPanel;
+    Utility utility = new Utility();
     JComboBox<String> showMapBox = new JComboBox<>(playerList);
-    int attempts;
-
-
-    ArrayList<String> words;
-    ArrayList<Player> playerMapList = new ArrayList<>();
     JButton nextButton = new JButton("Next player");
     JButton showMapButton = new JButton("Show map");
     JButton replayButton = new JButton("Replay");
-    GridLayout gridLayout = new GridLayout(5, 5);
     Label curPlayerLabel = new Label();
-    ArrayList<Integer> greenClicked = new ArrayList<>();
-    int curPlayer;
+
 
     public MainBoard(String name) {
         super(name);
-
+        jPanel = new JPanel();
         setResizable(false);
     }
 
@@ -37,26 +36,26 @@ public class MainBoard extends JFrame {
         attempts = 14;
         this.words = utility.randomizeBoard();
         playerMapList = utility.randomizeMap();
+        curPlayerLabel.setFont(new Font("Arial", Font.BOLD, 18));
         curPlayerLabel.setText("Player 1's turn, attempts left: " + attempts);
         showMapBox.setSelectedIndex(1);
     }
 
-    public void iniBoardView(JPanel jPanel) {
-
-        //Set up components preferred size
+    @Override
+    public void iniBoardView() {
         utility.fakeButton(jPanel);
 
         //Add buttons to experiment with Grid Layout
         for (String s : words) {
-            JButton temp = new JButton(s);
-            temp.addActionListener(e -> {
+            JButton btn = new JButton(s);
+            btn.setFont(new Font("Times New Roman", Font.PLAIN, 25));
+            btn.addActionListener(e -> {
                 JButton tempBtn = (JButton) e.getSource();
-                int index = words.indexOf(tempBtn.getText());
-                validateWithMap(playerMapList.get(curPlayer == 1 ? 0 : 1), index, tempBtn, jPanel);
-                checkIfEndOfGame(jPanel);
+                validateWithMap(playerMapList.get(curPlayer == 1 ? 0 : 1), words.indexOf(tempBtn.getText()), tempBtn);
+                checkIfEndOfGame();
             });
 
-            jPanel.add(temp);
+            jPanel.add(btn);
         }
     }
 
@@ -66,7 +65,7 @@ public class MainBoard extends JFrame {
         curPlayerLabel.setText("Player " + (curPlayer + 1) + "'s turn:, attempts left: " + attempts);
     }
 
-    public void checkIfEndOfGame(JPanel jPanel) {
+    public void checkIfEndOfGame() {
         if (greenClicked.size() == 15) {
             JOptionPane.showMessageDialog(jPanel,
                     "You have pressed all the green cards! Victory!",
@@ -77,11 +76,10 @@ public class MainBoard extends JFrame {
                     "You have used all the attempts! End of game",
                     "End of game",
                     JOptionPane.ERROR_MESSAGE);
-
         }
     }
 
-    public void validateWithMap(Player validatePlayer, int index, JButton tempBtn, JPanel jPanel) {
+    public void validateWithMap(Player validatePlayer, int index, JButton tempBtn) {
         if (validatePlayer.getAllGreen().contains(index) && !greenClicked.contains(index)) {
             greenClicked.add(index);
             tempBtn.setBackground(Color.green);
@@ -103,24 +101,21 @@ public class MainBoard extends JFrame {
 
     public void addComponentsToPane(final Container pane) {
         iniMapsAndBoardData();
-        final JPanel jPanel = new JPanel();
-        jPanel.setLayout(gridLayout);
-        iniBoardView(jPanel);
+        iniBoardView();
+        setBoardLayout(jPanel, new GridLayout(5, 5));
+
         JPanel controls = new JPanel();
-        controls.setLayout(new GridLayout(3, 2));
+        setBoardLayout(controls, new GridLayout(3, 2));
 
         //Process the show map button press
         showMapButton.addActionListener(e -> {
             //Get the map choice value
             String mapChoice = (String) showMapBox.getSelectedItem();
             if (mapChoice != null)
-                if (mapChoice.equalsIgnoreCase("Player 1")) {
-                    utility.createAndShowMapGUI(mapChoice, playerMapList.get(0).getAllGreen(), playerMapList.get(0).getAllBlack());
-                } else {
-                    utility.createAndShowMapGUI(mapChoice, playerMapList.get(1).getAllGreen(), playerMapList.get(1).getAllBlack());
-                }
+                    utility.createAndShowMapGUI(mapChoice, playerMapList);
+
             //Set up the layout of the buttons
-            gridLayout.layoutContainer(jPanel);
+            //gridLayout.layoutContainer(jPanel);
         });
         //Process the next player button press
         nextButton.addActionListener(e -> nextPlayer());
@@ -129,22 +124,31 @@ public class MainBoard extends JFrame {
         replayButton.addActionListener(e -> {
             jPanel.removeAll();
             iniMapsAndBoardData();
-            iniBoardView(jPanel);
+            iniBoardView();
             revalidate();
             repaint();
         });
 
         //Add controls
         controls.add(curPlayerLabel);
+        nextButton.setFont(new Font("Arial", Font.BOLD, 14));
         controls.add(nextButton);
+        showMapBox.setFont(new Font("Arial", Font.BOLD, 14));
         controls.add(showMapBox);
+        showMapButton.setFont(new Font("Arial", Font.BOLD, 14));
         controls.add(showMapButton);
         controls.add(new JLabel());
+        replayButton.setFont(new Font("Arial", Font.BOLD, 18));
         controls.add(replayButton);
 
         pane.add(jPanel, BorderLayout.NORTH);
         pane.add(new JSeparator(), BorderLayout.CENTER);
         pane.add(controls, BorderLayout.SOUTH);
+    }
+
+    @Override
+    public void setBoardLayout(JPanel _jPanel, GridLayout gridLayout) {
+        _jPanel.setLayout(gridLayout);
     }
 
 
