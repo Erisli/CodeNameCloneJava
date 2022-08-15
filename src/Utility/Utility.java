@@ -15,8 +15,8 @@ public class Utility {
     final static int MAXGAP = 20;
     final String[] wordsBank = {"dragon","finger","slide","socks","crayon","bat","mouse","ocean","eye","wheel","beach","curl","lemon","bed","leaf","ghost","bathroom","cheese","cherry","shoe","feather","flag","man","egg","bee","lips","ship","book","line","boat","pig","cookie","pool","grapes","plant","truck","bridge","eyes","chicken","head","skateboard","heart","mountains","ring","helicopter","drum","ear","button","train","nail","doctor","sidewalk","cowboy","sister","package","kite","pipe","video camera","sail","pitchfork","wave","fire hydrant","owl","crow","bomb","marker","zookeeper","stick","hair","wheelbarrow","cockroach","pogo stick","seal","sushi","sprinkler","snowball","airport","birthday","motorcycle","maid","pilot","saltwater","stapler","dig","hunter","pear","t-shirt","pollution","fax","hole","marshmallow","hook","yardstick","twig","soccer","sand","state","anvil","tulip","notebook","devious","blue tooth","cheerleader","concession stand","roommate","charger","clown","front","receipt","stay","zoom","lunar rover","degree","sandbox","best friend","important","deliver","prime meridian","toolbox","ruby","mast","calm","costume","pharaoh","punk","twist","glue stick","ringleader","attack","manatee","mirror","pigpen","drawback","print","commercial","fiddle","bookstore","fiance","cattle","vitamin","recess","last","goblin","diagonal","wrap","elope","pro","violent","oar","swimming","drift","brainstorm","depth","property","friction","nutmeg","tribe","random","insurance","archaeologist","improve","system","danger","debt","risk","pawnshop","error","in-law","password","offstage","blacksmith","silt","inquisition","enemy","zone defense","armada","pelt","VIP","steamboat","addendum","whiplash","forklift","member","good-bye","pomp","dud","loiterer","resourceful","infection","try","promise","semester","default","cartoonist","riddle","tattle","feeling","cause","hobby","coast"};
 
-    public ArrayList getRandomNonRepeatingIntegers(int size, int min, int max) {
-        ArrayList numbers = new ArrayList();
+    public ArrayList<Integer> getRandomNonRepeatingIntegers(int size, int min, int max) {
+        ArrayList<Integer> numbers = new ArrayList<>();
         Random random = new Random();
         while (numbers.size() < size) {
             int randomNumber = random.nextInt((max - min) + 1) + min;
@@ -33,8 +33,7 @@ public class Utility {
 
         ArrayList<String> words = new ArrayList<>();
         Utility utility = new Utility();
-        ArrayList<Integer> list = new ArrayList<>();
-        list = utility.getRandomNonRepeatingIntegers(MAXWORDS, 0, wordsBank.length - 1);
+        ArrayList<Integer> list = utility.getRandomNonRepeatingIntegers(MAXWORDS, 0, wordsBank.length - 1);
 
         for (int i : list)
             words.add(wordsBank[i]);
@@ -74,15 +73,15 @@ public class Utility {
         mapList.remove(0);
 
         //4. random 3 matched green
-        player1.setMatchGreen(new ArrayList(mapList.subList(0, 3)));
-        player2.setMatchGreen(new ArrayList(mapList.subList(0, 3)));
-        mapList.removeAll(new ArrayList(mapList.subList(0, 3)));
+        player1.setMatchGreen(new ArrayList<>(mapList.subList(0, 3)));
+        player2.setMatchGreen(new ArrayList<>(mapList.subList(0, 3)));
+        mapList.removeAll(new ArrayList<>(mapList.subList(0, 3)));
 
         //5. random 5 unique green for each
-        player1.setGreen(new ArrayList(mapList.subList(0, 5)));
-        mapList.removeAll(new ArrayList(mapList.subList(0, 5)));
-        player2.setGreen(new ArrayList(mapList.subList(0, 5)));
-        mapList.removeAll(new ArrayList(mapList.subList(0, 5)));
+        player1.setGreen(new ArrayList<>(mapList.subList(0, 5)));
+        mapList.removeAll(new ArrayList<>(mapList.subList(0, 5)));
+        player2.setGreen(new ArrayList<>(mapList.subList(0, 5)));
+        mapList.removeAll(new ArrayList<>(mapList.subList(0, 5)));
 
         //6. final map
         System.out.println("player1 Green:");
