@@ -13,35 +13,10 @@ import java.util.Random;
 public class Utility {
     final static int MAXWORDS = 25;
     final static int MAXGAP = 20;
-    final String[] wordsBank = {"aquavit", "abbreviation", "analogy", "actress", "area", "anxiety", "amnesty", "airport", "autograph", "array",
-            "bloom", "brainwashing", "bootie", "brook", "back", "bard", "baggie", "brokerage", "bunch", "binary",
-            "crew", "creation", "citizen", "cocktail", "collusion", "criterion", "control", "cargo", "cricketer", "copying",
-            "digital", "dough", "disadvantage", "die", "download", "drummer", "dredger", "drop", "deacon", "della",
-            "elicit", "ext", "espalier", "execution", "ethernet", "electron", "exhibition", "emphasis", "excursion", "eighty",
-            "fare", "footage", "flask", "foundation", "filmmaker", "flutter", "firm", "flunky", "friday", "fin",
-            "groove", "grand", "gland", "glory", "greed", "giant", "gender", "guacamole", "gather", "gaiters",
-            "hitch", "humanity", "handle", "hideout", "harmonize", "half", "hickey", "hook", "hallway", "house-elf",
-            "insecurity", "ice", "incidence", "integral", "inquiry", "infrastructure", "ingredient", "initiative", "ideologue", "intern",
-            "jersey", "judo", "jewel", "judgement", "jump", "jellybeans", "judge", "jury", "jordanian", "juice",
-            "kosa", "kenya", "knife", "knock", "khaki", "kern", "kiss", "kindergarten", "kick", "karma",
-            "lathe", "log", "legend", "luncheon", "leave", "laura", "label", "lighthouse", "lily", "loafer",
-            "mutton", "miserliness", "mid-february", "maternity", "monday", "moody", "mirror", "misogyny", "meatball", "madam",
-            "nightclub", "newsletter", "nightstand", "nationalism", "needlework", "nit", "need", "non-locals", "necklace", "national",
-            "organising", "opinion", "opposite", "optimism", "obesity", "organisation", "optimal", "octopus", "organiser", "olive",
-            "pastry", "parrot", "playground", "privacy", "physics", "patina", "prescription", "price", "pearl", "pasture",
-            "quite", "questionnaire", "quality", "quantum", "quill", "question", "quicksand", "queen", "quest", "qualification",
-            "romania", "reach", "reset", "reservation", "rise", "referee", "revolution", "racism", "radiosonde", "riddle",
-            "soul", "shower", "swiss", "sunrise", "sheath", "starter", "stain", "shampoo", "shears", "screamer",
-            "translator", "texture", "temporary", "tonality", "tennis", "travelling", "tenement", "teammate", "triplet", "triviality",
-            "unwillingness", "upper", "underwear", "use", "undergraduate", "underwire", "undertaker", "user", "unshielded", "USB",
-            "visa", "vitamin", "villain", "vogue", "ventilation", "viewpoint", "vulgarity", "vietnam", "vaulting", "vendor",
-            "world", "will", "winner", "wile", "whip", "wand", "while", "word", "wombat", "white",
-            "xylophone", "x-ray", "xbox", "x men", "xerographic",
-            "yurt", "yawn", "yahoo", "yarmulke", "yard", "yesterday", "yew", "yugoslavian", "yogurt", "yak",
-            "zenith", "zodiac", "zone", "zebra", "ziploc", "zeitgeist", "zucchini", "zero"};
+    final String[] wordsBank = {"dragon","finger","slide","socks","crayon","bat","mouse","ocean","eye","wheel","beach","curl","lemon","bed","leaf","ghost","bathroom","cheese","cherry","shoe","feather","flag","man","egg","bee","lips","ship","book","line","boat","pig","cookie","pool","grapes","plant","truck","bridge","eyes","chicken","head","skateboard","heart","mountains","ring","helicopter","drum","ear","button","train","nail","doctor","sidewalk","cowboy","sister","package","kite","pipe","video camera","sail","pitchfork","wave","fire hydrant","owl","crow","bomb","marker","zookeeper","stick","hair","wheelbarrow","cockroach","pogo stick","seal","sushi","sprinkler","snowball","airport","birthday","motorcycle","maid","pilot","saltwater","stapler","dig","hunter","pear","t-shirt","pollution","fax","hole","marshmallow","hook","yardstick","twig","soccer","sand","state","anvil","tulip","notebook","devious","blue tooth","cheerleader","concession stand","roommate","charger","clown","front","receipt","stay","zoom","lunar rover","degree","sandbox","best friend","important","deliver","prime meridian","toolbox","ruby","mast","calm","costume","pharaoh","punk","twist","glue stick","ringleader","attack","manatee","mirror","pigpen","drawback","print","commercial","fiddle","bookstore","fiance","cattle","vitamin","recess","last","goblin","diagonal","wrap","elope","pro","violent","oar","swimming","drift","brainstorm","depth","property","friction","nutmeg","tribe","random","insurance","archaeologist","improve","system","danger","debt","risk","pawnshop","error","in-law","password","offstage","blacksmith","silt","inquisition","enemy","zone defense","armada","pelt","VIP","steamboat","addendum","whiplash","forklift","member","good-bye","pomp","dud","loiterer","resourceful","infection","try","promise","semester","default","cartoonist","riddle","tattle","feeling","cause","hobby","coast"};
 
-    public ArrayList getRandomNonRepeatingIntegers(int size, int min, int max) {
-        ArrayList numbers = new ArrayList();
+    public ArrayList<Integer> getRandomNonRepeatingIntegers(int size, int min, int max) {
+        ArrayList<Integer> numbers = new ArrayList<>();
         Random random = new Random();
         while (numbers.size() < size) {
             int randomNumber = random.nextInt((max - min) + 1) + min;
@@ -58,8 +33,7 @@ public class Utility {
 
         ArrayList<String> words = new ArrayList<>();
         Utility utility = new Utility();
-        ArrayList<Integer> list = new ArrayList<>();
-        list = utility.getRandomNonRepeatingIntegers(MAXWORDS, 0, wordsBank.length - 1);
+        ArrayList<Integer> list = utility.getRandomNonRepeatingIntegers(MAXWORDS, 0, wordsBank.length - 1);
 
         for (int i : list)
             words.add(wordsBank[i]);
@@ -99,15 +73,15 @@ public class Utility {
         mapList.remove(0);
 
         //4. random 3 matched green
-        player1.setMatchGreen(new ArrayList(mapList.subList(0, 3)));
-        player2.setMatchGreen(new ArrayList(mapList.subList(0, 3)));
-        mapList.removeAll(new ArrayList(mapList.subList(0, 3)));
+        player1.setMatchGreen(new ArrayList<>(mapList.subList(0, 3)));
+        player2.setMatchGreen(new ArrayList<>(mapList.subList(0, 3)));
+        mapList.removeAll(new ArrayList<>(mapList.subList(0, 3)));
 
         //5. random 5 unique green for each
-        player1.setGreen(new ArrayList(mapList.subList(0, 5)));
-        mapList.removeAll(new ArrayList(mapList.subList(0, 5)));
-        player2.setGreen(new ArrayList(mapList.subList(0, 5)));
-        mapList.removeAll(new ArrayList(mapList.subList(0, 5)));
+        player1.setGreen(new ArrayList<>(mapList.subList(0, 5)));
+        mapList.removeAll(new ArrayList<>(mapList.subList(0, 5)));
+        player2.setGreen(new ArrayList<>(mapList.subList(0, 5)));
+        mapList.removeAll(new ArrayList<>(mapList.subList(0, 5)));
 
         //6. final map
         System.out.println("player1 Green:");
